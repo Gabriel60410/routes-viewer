@@ -1,6 +1,7 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.7.1/gpx.min.js"></script>
+<script src="https://unpkg.com/leaflet-gpx@1.7.1"></script>
+
 <div id="map" style="width: 100%; height: 500px;"></div>
 <select id="gpxSelect" onchange="loadGPXFile(this.value)">
   <option value="">Sélectionnez un fichier GPX</option>
@@ -9,49 +10,27 @@
   <option value="https://gabriel60410.github.io/routes-viewer/5_vbn4_car2.gpx">Circuit 5_2</option>
   <option value="https://gabriel60410.github.io/routes-viewer/5_vbn4_car3.gpx">Circuit 5_3</option>
 </select>
+
 <script>
   // Initialisez la carte
   var map = L.map('map').setView([48.864716, 2.349014], 12);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
   }).addTo(map);
+
   var gpxLayer;
+
   // Fonction pour charger un fichier GPX
-function loadGPXFile(filePath) {
-  if (gpxLayer) {
-    map.removeLayer(gpxLayer);
-  }
-  gpxLayer = new L.GPX(filePath, {
-    async: true,
-    gpx_options: {
-      parseElements: ['track', 'route', 'waypoint'],
-      joinTrackSegments: true,
-      namespace: {
-        'gpxtpx': 'http://www.garmin.com/xmlschemas/TrackPointExtension/v1',
-        'gpxx': 'http://www.garmin.com/xmlschemas/GpxExtensions/v3'
-      }
+  function loadGPXFile(filePath) {
+    if (gpxLayer) {
+      map.removeLayer(gpxLayer);
     }
-  });
-  gpxLayer.on('loaded', function (e) {
-    map.fitBounds(e.target.getBounds());
-  });
-  gpxLayer.addTo(map);
-}
-function loadGPXFile(filePath) {
-  if (gpxLayer) {
-    map.removeLayer(gpxLayer);
+    gpxLayer = new L.GPX(filePath, {
+      async: true
+    });
+    gpxLayer.on('loaded', function(e) {
+      map.fitBounds(e.target.getBounds());
+    });
+    gpxLayer.addTo(map);
   }
-  gpxLayer = new L.GPX(filePath, {
-    async: true,
-    marker_options: {
-      startIconUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.7.1/img/pin-icon-start.png",
-      endIconUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.7.1/img/pin-icon-end.png",
-      shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.7.1/img/pin-shadow.png"
-    }
-  });
-  gpxLayer.on("loaded", function (e) {
-    map.fitBounds(e.target.getBounds());
-  });
-  gpxLayer.addTo(map);
-}
 </script>
