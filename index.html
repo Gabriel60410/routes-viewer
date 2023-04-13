@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-<script src="https://unpkg.com/leaflet-gpx@1.7.1"></script>
+<script src="https://unpkg.com/leaflet-gpx-track"></script>
 <div id="map" style="width: 100%; height: 500px;"></div>
 <select id="gpxSelect" onchange="loadGPXFile(this.value)">
   <option value="">Sélectionnez un fichier GPX</option>
@@ -41,20 +41,20 @@ function loadGPXFile(filePath) {
   if (gpxLayer) {
     map.removeLayer(gpxLayer);
   }
-  gpxLayer = new L.GPX(filePath, {
-    async: true,
-    gpx_options: {
-      parseElements: ['track', 'route', 'waypoint'],
-      joinTrackSegments: true,
-      namespace: {
-        'gpxtpx': 'http://www.garmin.com/xmlschemas/TrackPointExtension/v1',
-        'gpxx': 'http://www.garmin.com/xmlschemas/GpxExtensions/v3'
-      }
-    }
-  });
-  gpxLayer.on('loaded', function (e) {
-    map.fitBounds(e.target.getBounds());
-  });
-  gpxLayer.addTo(map);
+  // Charger le fichier GPX et créer le calque
+  fetch(filePath)
+    .then((response) => response.text())
+    .then((gpxData) => {
+      gpxLayer = L.track({
+        gpx: gpxData,
+        name: 'gpx-track',
+        options: {
+          track: { color: '#ff0000', weight: 4 },
+        },
+      });
+
+      gpxLayer.addTo(map);
+      map.fitBounds(gpxLayer.getBounds());
+    });
 }
 </script>
