@@ -1,0 +1,34 @@
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-gpx@1.7.1"></script>
+​
+<div id="map" style="width: 100%; height: 500px;"></div>
+<select id="gpxSelect" onchange="loadGPXFile(this.value)">
+  <option value="">Sélectionnez un fichier GPX</option>
+  <option value="/sites/Construction Lot 1/Shared Documents/GPXFiles/sol_750604221_7200_90000_vbn4_car0.gpx">Circuit 1</option>
+  <option value="/sites/Construction Lot 1/Shared Documents/GPXFiles/sol_750604221_7200_90000_vbn4_car1.gpx">Circuit 2</option>
+</select>
+​
+<script>
+  // Initialisez la carte
+  var map = L.map('map').setView([48.864716, 2.349014], 12);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
+​
+  var gpxLayer;
+​
+  // Fonction pour charger un fichier GPX
+  function loadGPXFile(filePath) {
+    if (gpxLayer) {
+      map.removeLayer(gpxLayer);
+    }
+    gpxLayer = new L.GPX(filePath, {
+      async: true
+    });
+    gpxLayer.on('loaded', function(e) {
+      map.fitBounds(e.target.getBounds());
+    });
+    gpxLayer.addTo(map);
+  }
+</script>
