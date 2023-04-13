@@ -10,13 +10,10 @@
 <body>
 
 <div id="map" style="width: 100%; height: 500px;"></div>
-<select id="geojsonSelect" onchange="loadGeoJSONFile(this.value)">
-  <option value="">Sélectionnez un fichier GeoJSON</option>
-  <option value="https://raw.githubusercontent.com/Gabriel60410/routes-viewer/main/5_vnb4_car0.geojson">Circuit 5_0</option>
-  <option value="https://raw.githubusercontent.com/Gabriel60410/routes-viewer/main/5_vnb4_car1.geojson">Circuit 5_1</option>
-  <option value="https://raw.githubusercontent.com/Gabriel60410/routes-viewer/main/5_vnb4_car2.geojson">Circuit 5_2</option>
-  <option value="https://raw.githubusercontent.com/Gabriel60410/routes-viewer/main/5_vnb4_car3.geojson">Circuit 5_3</option>
-</select>
+<label><input type="checkbox" id="circuit_5_0" onchange="toggleGeoJSONFile(this, 'https://raw.githubusercontent.com/gabriel60410/routes-viewer/main/5_vbn4_car0.geojson')">Circuit 5_0</label><br>
+<label><input type="checkbox" id="circuit_5_1" onchange="toggleGeoJSONFile(this, 'https://raw.githubusercontent.com/gabriel60410/routes-viewer/main/5_vbn4_car1.geojson')">Circuit 5_1</label><br>
+<label><input type="checkbox" id="circuit_5_2" onchange="toggleGeoJSONFile(this, 'https://raw.githubusercontent.com/gabriel60410/routes-viewer/main/5_vbn4_car2.geojson')">Circuit 5_2</label><br>
+<label><input type="checkbox" id="circuit_5_3" onchange="toggleGeoJSONFile(this, 'https://raw.githubusercontent.com/gabriel60410/routes-viewer/main/5_vbn4_car3.geojson')">Circuit 5_3</label><br>
 
 <script>
   // Initialisez la carte
@@ -25,24 +22,35 @@
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
   }).addTo(map);
 
-  var geojsonLayer;
+  var geojsonLayers = {};
 
-  // Fonction pour charger un fichier GeoJSON
-  function loadGeoJSONFile(filePath) {
-    if (geojsonLayer) {
-      map.removeLayer(geojsonLayer);
+  function toggleGeoJSONFile(checkbox, filePath) {
+    if (checkbox.checked) {
+      loadGeoJSONFile(checkbox.id, filePath);
+    } else {
+      removeGeoJSONFile(checkbox.id);
     }
+  }
+
+  function loadGeoJSONFile(id, filePath) {
     fetch(filePath)
-      .then(function(response) {
+      .then(function (response) {
         return response.json();
       })
-      .then(function(geojsonData) {
-        console.log(geojsonData);
-        geojsonLayer = L.geoJSON(geojsonData).addTo(map);
-        map.fitBounds(geojsonLayer.getBounds());
+      .then(function (geojsonData) {
+        var geojsonLayer = L.geoJSON(geojsonData).addTo(map);
+        geojsonLayers[id] = geojsonLayer;
       });
+  }
+
+  function removeGeoJSONFile(id) {
+    if (geojsonLayers[id]) {
+      map.removeLayer(geojsonLayers[id]);
+      delete geojsonLayers[id];
+    }
   }
 </script>
 
 </body>
 </html>
+
