@@ -17,16 +17,44 @@
   }).addTo(map);
   var gpxLayer;
   // Fonction pour charger un fichier GPX
-  function loadGPXFile(filePath) {
-    if (gpxLayer) {
-      map.removeLayer(gpxLayer);
-    }
-    gpxLayer = new L.GPX(filePath, {
-      async: true
-    });
-    gpxLayer.on('loaded', function(e) {
-      map.fitBounds(e.target.getBounds());
-    });
-    gpxLayer.addTo(map);
+function loadGPXFile(filePath) {
+  if (gpxLayer) {
+    map.removeLayer(gpxLayer);
   }
+  gpxLayer = new L.GPX(filePath, {
+    async: true,
+    gpx_options: {
+      parseElements: ['track', 'route', 'waypoint'],
+      joinTrackSegments: true,
+      namespace: {
+        'gpxtpx': 'http://www.garmin.com/xmlschemas/TrackPointExtension/v1',
+        'gpxx': 'http://www.garmin.com/xmlschemas/GpxExtensions/v3'
+      }
+    }
+  });
+  gpxLayer.on('loaded', function (e) {
+    map.fitBounds(e.target.getBounds());
+  });
+  gpxLayer.addTo(map);
+}
+function loadGPXFile(filePath) {
+  if (gpxLayer) {
+    map.removeLayer(gpxLayer);
+  }
+  gpxLayer = new L.GPX(filePath, {
+    async: true,
+    gpx_options: {
+      parseElements: ['track', 'route', 'waypoint'],
+      joinTrackSegments: true,
+      namespace: {
+        'gpxtpx': 'http://www.garmin.com/xmlschemas/TrackPointExtension/v1',
+        'gpxx': 'http://www.garmin.com/xmlschemas/GpxExtensions/v3'
+      }
+    }
+  });
+  gpxLayer.on('loaded', function (e) {
+    map.fitBounds(e.target.getBounds());
+  });
+  gpxLayer.addTo(map);
+}
 </script>
