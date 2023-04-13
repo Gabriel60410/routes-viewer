@@ -6,14 +6,33 @@
   <title>Routes Viewer</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  <style>
+    #container {
+      display: flex;
+    }
+    #leftColumn {
+      flex: 0 0 200px;
+      padding: 1em;
+      box-sizing: border-box;
+    }
+    #map {
+      flex: 1;
+      height: 500px;
+    }
+  </style>
 </head>
 <body>
 
-<div id="map" style="width: 100%; height: 500px;"></div>
-<label><input type="checkbox" id="circuit_5_0" onchange="toggleGeoJSONFile(this, 'https://raw.githubusercontent.com/Gabriel60410/routes-viewer/main/5_vnb4_car0.geojson')">Circuit 5_0</label><br>
-<label><input type="checkbox" id="circuit_5_1" onchange="toggleGeoJSONFile(this, 'https://raw.githubusercontent.com/Gabriel60410/routes-viewer/main/5_vnb4_car1.geojson')">Circuit 5_1</label><br>
-<label><input type="checkbox" id="circuit_5_2" onchange="toggleGeoJSONFile(this, 'https://raw.githubusercontent.com/Gabriel60410/routes-viewer/main/5_vnb4_car2.geojson')">Circuit 5_2</label><br>
-<label><input type="checkbox" id="circuit_5_3" onchange="toggleGeoJSONFile(this, 'https://raw.githubusercontent.com/Gabriel60410/routes-viewer/main/5_vnb4_car3.geojson')">Circuit 5_3</label><br>
+<div id="container">
+  <div id="leftColumn">
+    <label><input type="checkbox" id="circuit_5_0" onchange="toggleGeoJSONFile(this, 'https://raw.githubusercontent.com/Gabriel60410/routes-viewer/main/5_vnb4_car0.geojson')">Circuit 5_0</label><br>
+    <label><input type="checkbox" id="circuit_5_1" onchange="toggleGeoJSONFile(this, 'https://raw.githubusercontent.com/Gabriel60410/routes-viewer/main/5_vnb4_car1.geojson')">Circuit 5_1</label><br>
+    <label><input type="checkbox" id="circuit_5_2" onchange="toggleGeoJSONFile(this, 'https://raw.githubusercontent.com/Gabriel60410/routes-viewer/main/5_vnb4_car2.geojson')">Circuit 5_2</label><br>
+    <label><input type="checkbox" id="circuit_5_3" onchange="toggleGeoJSONFile(this, 'https://raw.githubusercontent.com/Gabriel60410/routes-viewer/main/5_vnb4_car3.geojson')">Circuit 5_3</label><br>
+  </div>
+  <div id="map"></div>
+</div>
+
 <script>
   // Initialisez la carte
   var map = L.map('map').setView([48.864716, 2.349014], 12);
