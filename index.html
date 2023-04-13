@@ -6,12 +6,12 @@
   <title>Routes Viewer</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-  <script src="https://unpkg.com/leaflet.fullscreen@1.0.2"></script>
   <style>
     #container {
       display: flex;
     }
     #leftColumn {
+      flex: 0 0 200px;
       padding: 1em;
       box-sizing: border-box;
     }
@@ -40,20 +40,6 @@
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
   }).addTo(map);
 
-  L.control.fullscreen({
-    position: 'topleft',
-    title: {
-      'false': 'Afficher en plein écran',
-      'true': 'Quitter le plein écran'
-    }
-  }).addTo(map);
-  map.on('enterFullscreen', function(){
-    if(window.console) window.console.log('enterFullscreen');
-  });
-  map.on('exitFullscreen', function(){
-    if(window.console) window.console.log('exitFullscreen');
-  });
-
   var geojsonLayers = {};
 
   function toggleGeoJSONFile(checkbox, filePath) {
@@ -70,9 +56,8 @@
         return response.json();
       })
       .then(function (geojsonData) {
-        var geojsonLayer = L.geoJSON(geojsonData);
+        var geojsonLayer = L.geoJSON(geojsonData).addTo(map);
         geojsonLayers[id] = geojsonLayer;
-        geojsonLayer.addTo(map);
       });
   }
 
