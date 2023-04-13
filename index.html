@@ -1,14 +1,22 @@
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-<script src="https://unpkg.com/leaflet-gpx@1.7.1"></script>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Routes Viewer</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.4.0/gpx.min.js"></script>
+</head>
+<body>
 
 <div id="map" style="width: 100%; height: 500px;"></div>
 <select id="gpxSelect" onchange="loadGPXFile(this.value)">
   <option value="">Sélectionnez un fichier GPX</option>
-  <option value="https://gabriel60410.github.io/routes-viewer/5_vbn4_car0.gpx">Circuit 5_0</option>
-  <option value="https://gabriel60410.github.io/routes-viewer/5_vbn4_car1.gpx">Circuit 5_1</option>
-  <option value="https://gabriel60410.github.io/routes-viewer/5_vbn4_car2.gpx">Circuit 5_2</option>
-  <option value="https://gabriel60410.github.io/routes-viewer/5_vbn4_car3.gpx">Circuit 5_3</option>
+  <option value="https://raw.githubusercontent.com/gabriel60410/routes-viewer/main/5_vbn4_car0.gpx">Circuit 5_0</option>
+  <option value="https://raw.githubusercontent.com/gabriel60410/routes-viewer/main/5_vbn4_car1.gpx">Circuit 5_1</option>
+  <option value="https://raw.githubusercontent.com/gabriel60410/routes-viewer/main/5_vbn4_car2.gpx">Circuit 5_2</option>
+  <option value="https://raw.githubusercontent.com/gabriel60410/routes-viewer/main/5_vbn4_car3.gpx">Circuit 5_3</option>
 </select>
 
 <script>
@@ -34,3 +42,6 @@
     gpxLayer.addTo(map);
   }
 </script>
+
+</body>
+</html>
