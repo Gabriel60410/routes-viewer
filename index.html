@@ -37,6 +37,7 @@
         return response.json();
       })
       .then(function(geojsonData) {
+        console.log(geojsonData);
         geojsonLayer = L.geoJSON(geojsonData).addTo(map);
         map.fitBounds(geojsonLayer.getBounds());
       });
